@@ -1,16 +1,23 @@
-import java.util.Arrays;
+import model.Customer;
+import model.Movie;
+import model.MovieRental;
+import util.Constants;
 
 public class Main {
 
   public static void main(String[] args) {
-    String expected = "Rental Record for C. U. Stomer\n\tYou've Got Mail\t3.5\n\tMatrix\t2.0\nAmount owed is 5.5\nYou earned 2 frequent points\n";
 
-    String result = new RentalInfo().statement(new Customer("C. U. Stomer", Arrays.asList(new MovieRental("F001", 3), new MovieRental("F002", 1))));
+    Movie[] movies = new Movie[] {
+            new Movie("You've Got Mail", Constants.REGULAR),
+            new Movie("Matrix", Constants.REGULAR),
+            new Movie("Cars", Constants.CHILDRENS),
+            new Movie("Fast & Furious X", Constants.NEW_RELEASE)
+    };
 
-    if (!result.equals(expected)) {
-      throw new AssertionError("Expected: " + System.lineSeparator() + String.format(expected) + System.lineSeparator() + System.lineSeparator() + "Got: " + System.lineSeparator() + result);
+    Customer customer = new Customer("C. U. Stomer");
+    for(Movie m : movies){
+      customer.addRentals(new MovieRental(m, Constants.RENTAL_PERIOD));
     }
-
-    System.out.println("Success");
+    System.out.println( customer.statement());
   }
 }

@@ -1,48 +1,62 @@
 package com.refactoring.rental.rental_service.util;
 
-import com.refactoring.rental.rental_service.model.Movie;
-import com.refactoring.rental.rental_service.util.constants.Constants;
-import lombok.experimental.UtilityClass;
+import com.refactoring.rental.rental_service.entity.MovieEntity;
+import com.refactoring.rental.rental_service.model.MovieRental;
+import com.refactoring.rental.rental_service.repository.MovieRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.logging.Logger;
 
-@UtilityClass
+@Component
 public class BuildStatementUtil {
 
-    public static String generateRentStatement(String customerName, List<Movie> movieList){
+    private static MovieRepository movieRepository;
+
+    @Autowired
+    public BuildStatementUtil(MovieRepository movieRepository) {
+        BuildStatementUtil.movieRepository = movieRepository;
+    }
+    public static String generateRentStatement(String customerName, List<MovieRental> movieList){
+
         double totalAmount = 0;
         int frequentRenterPoints = 0;
         StringBuilder rentSlip = new StringBuilder("Rental Report for "+customerName).append("\n\n");
         // header for details section
         rentSlip.append(String.format("%-40.40s %4s %-8s\n", "Movie Title", "Days", "Price"));
-        for (Movie rental : movieList) {
+        for (MovieRental rental : movieList) {
             double thisAmount = 0;
 
+            String movieId = rental.getMovieId();
+            MovieEntity movieDetails = movieRepository.findById(movieId).orElseThrow();;
+
+            String priceCode = movieDetails.getPriceCode();
+
             // determine amount for each movie
-            switch( rental.getPriceCode() ) {
-                case Constants.REGULAR:
-                    thisAmount += 2;
+            switch( priceCode.toLowerCase()) {
+                case "regular":
+                    thisAmount = 2;
                     if (rental.getRentPeriod() > 2) thisAmount += 1.5*(rental.getRentPeriod()-2);
                     break;
-                case Constants.CHILDRENS:
+                case "children":
                     thisAmount = 1.5;
                     if (rental.getRentPeriod() > 3) thisAmount += 1.5*(rental.getRentPeriod()-3);
                     break;
-                case Constants.NEW_RELEASE:
+                case "new release":
                     thisAmount = 3*rental.getRentPeriod();
                     break;
                 default:
-                    getLogger().warning("Movie "+rental.getTitle()+" has unrecognized priceCode "+rental.getPriceCode());
+                    getLogger().warning("Movie "+movieDetails.getMovieName()+" has unrecognized priceCode "+movieDetails.getPriceCode());
             }
 
 
             // add bonus for a two days or more new release rental
-            if ((rental.getPriceCode() == Constants.NEW_RELEASE) && rental.getRentPeriod() >= 2) frequentRenterPoints += rental.getRentPeriod();
+            if ((movieDetails.getPriceCode().equals(priceCode.toLowerCase()) ) && rental.getRentPeriod() >= 2) frequentRenterPoints += rental.getRentPeriod();
             else frequentRenterPoints++;
 
             //print figures for this rental
-            rentSlip.append(String.format("%-40.40s %3d %8.2f\n", rental.getTitle(), rental.getRentPeriod(), thisAmount));
+            rentSlip.append(String.format("%-40.40s %3d %8.2f\n", movieDetails.getMovieName(), rental.getRentPeriod(), thisAmount));
             totalAmount = totalAmount + thisAmount;
         }
         // add footer lines
@@ -52,7 +66,7 @@ public class BuildStatementUtil {
         return rentSlip.toString();
     }
 
-    public Logger getLogger() {
+    public static Logger getLogger() {
         return Logger.getLogger(BuildStatementUtil.class.getName());
     }
 }

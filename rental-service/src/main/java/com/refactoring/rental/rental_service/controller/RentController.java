@@ -1,8 +1,7 @@
 package com.refactoring.rental.rental_service.controller;
 
-import com.refactoring.rental.rental_service.domain.RentRequest;
+import com.refactoring.rental.rental_service.domain.CustomerDetails;
 import com.refactoring.rental.rental_service.service.RentalServiceInterface;
-import com.refactoring.rental.rental_service.service.impl.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,8 +16,8 @@ public class RentController {
     RentalServiceInterface rentalService;
 
     @RequestMapping(value="/rent", consumes = {"application/json"}, method = RequestMethod.POST)
-    public ResponseEntity<String> getCustomerRequest(@RequestBody RentRequest rentRequest){
-        String rentalSlip = rentalService.rentalSlipService(rentRequest);
+    public ResponseEntity<String> getCustomerRequest(@RequestBody CustomerDetails customerDetails){
+        String rentalSlip = rentalService.rentalSlipService(customerDetails);
         return ResponseEntity.ok(rentalSlip);
     }
 

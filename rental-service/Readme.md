@@ -28,6 +28,12 @@ Rest Controller has been implemented to get a POST request through RestAPI.
 Implemented service class to generate movie rental slip.
 Implemented logic in util class.
 All the constant values will be stored in Constants class of the constant pakage.
+Added spring Data JPA and dependency in pom.xml file.
+Implemented H2 database in the project as runtime database and initialze the database in data.sql file.
+Implemented entity and repository class for Movie details
+URL to send Post request : "http://localhost:8080/rent" Default port is 8080, if you are running in different port change accordingly.
+Example of RestAPI request body :
+{"customerName": "Rahul","movieList": [{"movieId": "F001","rentPeriod": 30}]}
 
 ## TO DO:
 Implementation of database.

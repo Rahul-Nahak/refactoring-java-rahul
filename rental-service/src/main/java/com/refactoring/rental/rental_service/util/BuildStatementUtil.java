@@ -1,6 +1,5 @@
 package com.refactoring.rental.rental_service.util;
 
-import com.refactoring.rental.rental_service.domain.RentRequest;
 import com.refactoring.rental.rental_service.model.Movie;
 import com.refactoring.rental.rental_service.util.constants.Constants;
 import lombok.experimental.UtilityClass;
@@ -11,7 +10,7 @@ import java.util.logging.Logger;
 @UtilityClass
 public class BuildStatementUtil {
 
-    public String generateRentStatement(String customerName, List<Movie> movieList){
+    public static String generateRentStatement(String customerName, List<Movie> movieList){
         double totalAmount = 0;
         int frequentRenterPoints = 0;
         StringBuilder rentSlip = new StringBuilder("Rental Report for "+customerName).append("\n\n");
@@ -53,7 +52,7 @@ public class BuildStatementUtil {
         return rentSlip.toString();
     }
 
-    private static Logger getLogger() {
+    public Logger getLogger() {
         return Logger.getLogger(BuildStatementUtil.class.getName());
     }
 }

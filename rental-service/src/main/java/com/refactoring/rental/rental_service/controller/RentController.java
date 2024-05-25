@@ -20,6 +20,8 @@ public class RentController {
 
     @RequestMapping(value="/rent", consumes = {"application/json"}, method = RequestMethod.POST)
     public ResponseEntity<String> getCustomerRequest(@RequestBody CustomerDetails customerDetails)  {
+
+        /** check the user input is valid */
         validateDetails.validateUserInput(customerDetails);
 
         String rentalSlip = rentalService.rentalSlipService(customerDetails);

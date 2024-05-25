@@ -8,14 +8,19 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Implements rental service interface
+ * service to process user input and generate slip
+ */
+
 @Service
 public class RentalService implements RentalServiceInterface {
 
     BuildStatementUtil buildStatementUtil;
 
     public String rentalSlipService(CustomerDetails rentRequest) {
-        String customerName = rentRequest.getCustomerName();
-        List<MovieRental> movieList = rentRequest.getMovieList();
+        String customerName = rentRequest.getCustomerName(); //get name of the user from json
+        List<MovieRental> movieList = rentRequest.getMovieList(); // get list of movie details
         String rentalSlip = buildStatementUtil.generateRentStatement(customerName, movieList);
         return rentalSlip;
     }

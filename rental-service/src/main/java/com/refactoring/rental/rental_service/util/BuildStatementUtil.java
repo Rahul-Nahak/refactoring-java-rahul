@@ -18,10 +18,17 @@ public class BuildStatementUtil {
     public BuildStatementUtil(MovieRepository movieRepository) {
         BuildStatementUtil.movieRepository = movieRepository;
     }
+
+    /**
+     * Generate rent slip for customer
+     * @param customerName
+     * @param movieList
+     * @return string contains customer name and rent receipt for selected movie
+     */
     public static String generateRentStatement(String customerName, List<MovieRental> movieList){
 
-        double totalAmount = 0;
-        int frequentRenterPoints = 0;
+        double totalAmount = 0; //initialize total amount for rent
+        int frequentRenterPoints = 0; //initialize bonus  point earn
         StringBuilder rentSlip = new StringBuilder("Rental Report for "+customerName).append("\n\n");
         // header for details section
         rentSlip.append(String.format("%-40.40s %4s %-8s\n", "Movie Title", "Days", "Price"));
@@ -66,6 +73,10 @@ public class BuildStatementUtil {
         return rentSlip.toString();
     }
 
+    /**
+     * to log message
+     * @return
+     */
     public static Logger getLogger() {
         return Logger.getLogger(BuildStatementUtil.class.getName());
     }

@@ -7,6 +7,9 @@ import lombok.Setter;
 
 import java.util.List;
 
+/**
+ * to build user input
+ */
 @Getter
 @Setter
 @AllArgsConstructor

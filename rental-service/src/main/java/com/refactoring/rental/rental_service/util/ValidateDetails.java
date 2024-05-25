@@ -24,6 +24,10 @@ public class ValidateDetails {
         ValidateDetails.movieRepository = movieRepository;
     }
 
+    /**
+     * to validate user provided details
+     * @param customerDetails
+     */
     public void validateUserInput(CustomerDetails customerDetails){
         String customerName = customerDetails.getCustomerName();
         if (isInvalidCustomer(customerName)) {
@@ -31,10 +35,20 @@ public class ValidateDetails {
         }
         isValidMovieDetails(customerDetails.getMovieList());
     }
+
+    /**
+     * to validate customer name
+     * @param customerName
+     * @return
+     */
     public boolean isInvalidCustomer(String customerName){
         return customerName.isEmpty() || customerName.equals(" ");
     }
 
+    /**
+     * to validate rent period and movie code
+     * @param movieList
+     */
     public void isValidMovieDetails(List<MovieRental> movieList){
         for(MovieRental movie : movieList){
             String movieId = movie.getMovieId();

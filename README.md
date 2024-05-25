@@ -8,7 +8,7 @@ Think: you are responsible for the solution, this is a solution you will have to
 
 ## Handing in the assignment
 
-Reason how you have been thinking and the decisions you took. 
+Reason how you have been thinking and the decisions you took.
 You can hand in the result any way you feel (git patch, pull-request or ZIP-file).
 Note: the Git history must be included.
 
@@ -19,16 +19,28 @@ Note: the Git history must be included.
 javac src/*.java
 java -cp src Main
 ```
-## Refactor Changes:
+## To test from PostMan :
+- URL to send Post request : "http://localhost:8080/rent" Default port is 8080, if you are running in different port change accordingly.
+- Example of RestAPI request body : </br>
+{"customerName": "Rahul","movieList": [{"movieId": "F001","rentPeriod": 30}]}
 
-Create package for each class type for readability.
-In customer class, replace the if else clause with Switch to separate the rent calculation for each type of movie.
-Added getLogger() to log if the given price code is not recognized.
-Created a class called Constants to keep all the constant values in it.
-In main method providing the customer name and movie details as hardcoded.
+## Solution Added :
 
-## More Enhancements:
-Adding maven build to the project.
-Building springboot application with Rest API
-Configure database to store the data such as movie details
-Adding test cases to the application
+- Converted the simple java application into a springboot Application.
+- Added maven and spring boot dependencies to the pom.xml.
+- Rest Controller has been implemented to get a POST request through RestAPI.
+- Implemented service class to generate movie rental slip.
+- Implemented logic in util class.
+- All the constant values will be stored in Constants class of the constant pakage.
+- Added spring Data JPA and dependency in pom.xml file.
+- Implemented H2 database in the project as runtime database and initialze the database in data.sql file.
+- Implemented entity and repository class for Movie details
+- Implemented user input validation
+- Added logger method to print a warning log
+- Added comments to specify the classes and methods and members of the class.
+- Implemented test cases for controller class.
+
+## TO DO:
+- Implementation of test cases for all the classes to achive 100% code coverage.
+- Implementation of customer table in database.
+- Upgrade of java version
